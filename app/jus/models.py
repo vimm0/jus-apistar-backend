@@ -62,7 +62,7 @@ class Video(Base):
     description = sa.Column(sa.String(255))
     # thumbnail = image_attachment('VideoThumbnail')
     release_date = sa.Column(sa.DateTime)
-    quality = sa.Column(ChoiceType(Quality))
+    quality = sa.Column(sa.String(255))
 
 # class VideoThumbnail(Base, Image):
 #     video_id = sa.Column(sa.Integer, sa.ForeignKey('video.id'), primary_key=True)

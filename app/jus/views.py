@@ -1,20 +1,21 @@
+from app.jus import schemas
 from app.jus.models import Video, User
 
 from apistar.backends.sqlalchemy_backend import Session
 
 
-def create_video(session: Session, title: str, length: str, description: str, release_date: str, quality: str):
+def create_video(session: Session, video: schemas.Video):
     """
-Cast given locale to string. Supports also callbacks that return locales.
+    Cast given locale to string. Supports also callbacks that return locales.
         title:
             Object or class to use as a possible parameter to locale calla   ble
         length:
             Locale object or string or callable that returns a locale.
     """
-    video = Video(title=title, length=length, description=description, release_date=release_date, quality=quality)
-    session.add(video)
+    obj = Video(**video)
+    session.add(obj)
     session.flush()
-    return {'id': video.id, 'title': video.title}
+    return {'id': obj.id, 'title': obj.title}
 
 
 def list_video(session: Session):
@@ -24,7 +25,7 @@ def list_video(session: Session):
     queryset = session.query(Video).all()
     return [
         {'id': video.id, 'title': video.title, 'length': video.length, 'description': video.description,
-         'release_date': video.release_date}
+         'release_date': video.release_date, 'quality': video.quality}
         for video in queryset
     ]
 

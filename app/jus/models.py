@@ -3,58 +3,33 @@ from sqlalchemy.orm import relationship
 import sqlalchemy as sa
 
 # from sqlalchemy_imageattach.entity import image_attachment, Image
-from sqlalchemy_utils import ChoiceType, EmailType, JSONType
+from sqlalchemy_utils import EmailType, JSONType
 
 Base = declarative_base()
 
 
 class User(Base):
-    TYPE = [
-        (u'monthly', u'Monthly'),
-        (u'yearly', u'Yearly'),
-    ]
-    PLAN = [
-        (u'Trial', u'Trial'),
-        (u'basic', u'Basic'),
-    ]
     __tablename__ = "user"
     id = sa.Column(sa.Integer, primary_key=True)
     fullname = sa.Column(sa.String(255))
     email = sa.Column(EmailType)
     payment = relationship("Payment")
-    subscription_type = sa.Column(ChoiceType(TYPE))
-    subscription_plan = sa.Column(ChoiceType(PLAN))
+    subscription_type = sa.Column(sa.String(255))
+    subscription_plan = sa.Column(sa.String(255))
 
 
 class Payment(Base):
-    METHOD = [
-        (u'paypal', u'Paypal'),
-    ]
-    STATUS = [
-        (u'succeed', u'Succeed'),
-        (u'pending', u'Pending'),
-        (u'failed', u'Failed'),
-    ]
     __tablename__ = "payment"
     id = sa.Column(sa.Integer, primary_key=True)
     user_id = sa.Column(sa.Integer, sa.ForeignKey('user.id'))
     amount = sa.Column(sa.Float(255))
-    method = sa.Column(ChoiceType(METHOD))
+    method = sa.Column(sa.String(255))
     data = sa.Column(JSONType)
-    status = sa.Column(ChoiceType(STATUS))
+    status = sa.Column(sa.String(255))
     date = sa.Column(sa.DateTime, default=sa.func.now())
-
-    @property
-    def status(self):
-        return self.status.code
 
 
 class Video(Base):
-    Quality = [
-        (u'low', u'Low'),
-        (u'medium', u'Medium'),
-        (u'high', u'High'),
-    ]
     __tablename__ = "video"
     id = sa.Column(sa.Integer, primary_key=True)
     title = sa.Column(sa.String(255))

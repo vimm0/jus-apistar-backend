@@ -3,5 +3,3 @@ sqlalchemy
 
 sqlalchemy-utils
 SQLAlchemy-ImageAttach
-
-sandman # admin interface for sqlalchemy

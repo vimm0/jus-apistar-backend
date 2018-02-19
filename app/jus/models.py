@@ -12,7 +12,7 @@ class User(Base):
     __tablename__ = "user"
     id = sa.Column(sa.Integer, primary_key=True)
     fullname = sa.Column(sa.String(255))
-    email = sa.Column(EmailType)
+    email = sa.Column(EmailType, unique=True)
     payment = relationship("Payment")
     subscription_type = sa.Column(sa.String(255))
     subscription_plan = sa.Column(sa.String(255))
